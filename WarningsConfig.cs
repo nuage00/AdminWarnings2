@@ -10,8 +10,9 @@ namespace AdminWarnings
     public class WarningsConfig : IRocketPluginConfiguration
     {
         public bool Enabled;
+        public bool AnnouceWarningKicksAndBansServerWide;
         public bool AnnouceWarningsServerWide;
-        public int WarningResetPoint;
+        public string MessageColor;
         [XmlArrayItem(ElementName = "WarningPoint")]
         public List<WarningPoint> WarningPoints;
         [XmlArrayItem(ElementName = "PlayerWarning")]
@@ -20,7 +21,9 @@ namespace AdminWarnings
         public void LoadDefaults()
         {
             Enabled = true;
-            AnnouceWarningsServerWide = true;
+            MessageColor = "Green";
+            AnnouceWarningKicksAndBansServerWide = true;
+            AnnouceWarningsServerWide = false;
             WarningPoints = new List<WarningPoint> {
                 new WarningPoint{ WarningsToTrigger = 3, KickPlayer = true, BanPlayer = false, BanLengthSeconds = 0 },
                 new WarningPoint{ WarningsToTrigger = 4, KickPlayer = false, BanPlayer = true, BanLengthSeconds = 600 },
