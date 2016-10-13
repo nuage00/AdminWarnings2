@@ -32,24 +32,10 @@ namespace AdminWarnings
             };
             PlayerWarnings = new List<PlayerWarning>();
         }
-
-        
-              /*  new WarningPoint(3, true, false, 0),
-                new WarningPoint(4, false, true, 600),
-                new WarningPoint(5, false, true, 1800),
-                new WarningPoint(6, false, true, 86400)*/
     }
 
     public class WarningPoint
     {
-       /* public WarningPoint(int warningsToTrigger, bool kickPlayer, bool banPlayer, uint BanLength)
-        {
-            WarningsToTrigger = warningsToTrigger;
-            KickPlayer = kickPlayer;
-            BanPlayer = banPlayer;
-            BanLengthSeconds = BanLength;
-        } */
-
         public int WarningsToTrigger;
         public bool KickPlayer;
         public bool BanPlayer;
