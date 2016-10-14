@@ -62,17 +62,17 @@ namespace AdminWarnings
     {
         public int GetPlayerWarnings(UnturnedPlayer P)
         {
-            return GetAllWarnings().FirstOrDefault(pWarning => pWarning.CSteamID.ToString() == P.CSteamID.ToString()).Warnings;
+            return GetAllPlayerWarnings().FirstOrDefault(pWarning => pWarning.CSteamID.ToString() == P.CSteamID.ToString()).Warnings;
         }
 
         public PlayerWarning GetPlayerData(UnturnedPlayer P)
         {
-            return GetAllWarnings().FirstOrDefault(pWarning => pWarning.CSteamID.ToString() == P.CSteamID.ToString());
+            return GetAllPlayerWarnings().FirstOrDefault(pWarning => pWarning.CSteamID.ToString() == P.CSteamID.ToString());
         }
 
         public bool CheckIfHasData(UnturnedPlayer P)
         {
-            var pWarning = GetAllWarnings().FirstOrDefault(warning => warning.CSteamID.ToString() == P.CSteamID.ToString());
+            var pWarning = GetAllPlayerWarnings().FirstOrDefault(warning => warning.CSteamID.ToString() == P.CSteamID.ToString());
             if (pWarning == null) return false;
             return true;
         }
@@ -137,7 +137,8 @@ namespace AdminWarnings
                 LogWarning(WarningsPlugin.Instance.Translate("console_player_warning", GetPlayerName(caller), Player.DisplayName, pData.Warnings));
             }
 
-            if (pData.Warnings >= GetAllWarningPoints()[GetAllWarningPoints().Count - 1].WarningsToTrigger)
+            var allWarningPoints = GetAllWarningPoints();
+            if (pData.Warnings >= allWarningPoints[allWarningPoints.Count - 1].WarningsToTrigger) 
             {
                 RemovePlayerData(pData);
                 Save();
@@ -277,7 +278,7 @@ namespace AdminWarnings
             return GetAllWarningPoints().FirstOrDefault(point => warnings == point.WarningsToTrigger);
         }
 
-        public List<PlayerWarning> GetAllWarnings()
+        public List<PlayerWarning> GetAllPlayerWarnings()
         {
             return WarningsPlugin.Instance.Configuration.Instance.PlayerWarnings;
         }
