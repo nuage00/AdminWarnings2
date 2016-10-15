@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandWarn.cs" />
+    <Compile Include="CommandWarnings.cs" />
     <Compile Include="WarningsConfig.cs" />
     <Compile Include="WarningsPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

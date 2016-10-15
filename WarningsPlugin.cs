@@ -41,6 +41,7 @@ namespace AdminWarnings
                     {"public_player_banned", "'{0}' has received {1} warnings and was banned for {2} seconds!"},
                     {"public_player_kicked", "'{0}' has received {1} warnings and was kicked!"},
                     {"public_player_warned", "'{0}' has been giving a warning, they are currently at {1} warnings!"},
+                    {"console_warnings_noparameter", "You must enter a player when calling this command from the console!"},
                     {"public_player_warned_reason", "'{0}' has been giving a warning! Reason: {1}"}
                 };
             }
@@ -50,6 +51,8 @@ namespace AdminWarnings
         {
             WarningUtilities.Log("AdminWarnings has Loaded!");
             Instance = this;
+
+            util.RemoveExpiredWarnings();
         }
 
         protected override void Unload()
@@ -60,6 +63,22 @@ namespace AdminWarnings
 
     public class WarningUtilities
     {
+        public void RemoveExpiredWarnings()
+        {
+            foreach (var playerWarning in GetAllPlayerWarnings())
+            {
+                if (GetDaysSinceWarning(playerWarning.DateAdded) >= WarningsPlugin.Instance.Configuration.Instance.DaysWarningsExpire)
+                {
+                    RemovePlayerData(playerWarning);
+                }
+            }
+        }
+
+        public int GetDaysSinceWarning(DateTime warningDate)
+        {
+            return (int)(DateTime.Now - warningDate).TotalDays;
+        }
+
         public int GetPlayerWarnings(UnturnedPlayer P)
         {
             return GetAllPlayerWarnings().FirstOrDefault(pWarning => pWarning.CSteamID.ToString() == P.CSteamID.ToString()).Warnings;
@@ -197,7 +216,10 @@ namespace AdminWarnings
 
         public void AddPlayerData(UnturnedPlayer player)
         {
-            WarningsPlugin.Instance.Configuration.Instance.PlayerWarnings.Add(new PlayerWarning { Warnings = 0, CSteamID = player.CSteamID.ToString() });
+            WarningsPlugin.Instance.Configuration.Instance.PlayerWarnings.Add(new PlayerWarning { 
+                Warnings = 0,
+                CSteamID = player.CSteamID.ToString(),
+                DateAdded = DateTime.Now });
             Save();
         }
 

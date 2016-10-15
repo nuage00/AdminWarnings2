@@ -13,6 +13,7 @@ namespace AdminWarnings
         public bool AnnouceWarningKicksAndBansServerWide;
         public bool AnnouceWarningsServerWide;
         public string MessageColor;
+        public int DaysWarningsExpire;
         [XmlArrayItem(ElementName = "WarningPoint")]
         public List<WarningPoint> WarningPoints;
         [XmlArrayItem(ElementName = "PlayerWarning")]
@@ -22,6 +23,7 @@ namespace AdminWarnings
         {
             Enabled = true;
             MessageColor = "Green";
+            DaysWarningsExpire = 7;
             AnnouceWarningKicksAndBansServerWide = true;
             AnnouceWarningsServerWide = false;
             WarningPoints = new List<WarningPoint> {
@@ -48,6 +50,8 @@ namespace AdminWarnings
         public string CSteamID;
         [XmlAttribute]
         public int Warnings;
+        [XmlAttribute]
+        public DateTime DateAdded;
     }
 
 }
