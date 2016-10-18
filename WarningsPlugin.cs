@@ -44,7 +44,7 @@ namespace AdminWarnings
                     {"public_player_warned", "'{0}' has been giving a warning, they are currently at {1} warnings!"},
                     {"console_warnings_noparameter", "You must enter a player when calling this command from the console!"},
                     {"public_player_warned_reason", "'{0}' has been giving a warning! Reason: {1}"},
-                    {"remove_warn", "Remove {0} warnings from '{1}'!"},
+                    {"remove_warn", "Removed {0} warnings from '{1}'!"},
                     {"no_data", "'{0}' does not have any warnings!"}
                 };
             }
