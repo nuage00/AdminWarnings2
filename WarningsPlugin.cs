@@ -33,6 +33,7 @@ namespace AdminWarnings
                     {"warned_caller_reason", "You have warned player: '{0}' for '{1}'"},
                     {"player_not_found", "A player by the name of '{0}' could not be found!"},
                     {"wrong_usage", "Correct command usage: /warn <player> [reason]"},
+                    {"wrong_usage_removewarn", "Correct command usage: /removewarn <player> [amount]"},
                     {"console_player_warning", "'{0}' has warned '{1}', '{1}' is at {2} warnings"},
                     {"console_player_banned", "'{0}' has warned '{1}', '{1}' was banned for {2} seconds"},
                     {"console_player_banned_reason", "'{0}' has warned '{1}', '{1}' was banned for {2} seconds with the reason '{3}'"},
@@ -42,7 +43,9 @@ namespace AdminWarnings
                     {"public_player_kicked", "'{0}' has received {1} warnings and was kicked!"},
                     {"public_player_warned", "'{0}' has been giving a warning, they are currently at {1} warnings!"},
                     {"console_warnings_noparameter", "You must enter a player when calling this command from the console!"},
-                    {"public_player_warned_reason", "'{0}' has been giving a warning! Reason: {1}"}
+                    {"public_player_warned_reason", "'{0}' has been giving a warning! Reason: {1}"},
+                    {"remove_warn", "Remove {0} warnings from '{1}'!"},
+                    {"no_data", "'{0}' does not have any warnings!"}
                 };
             }
         }
@@ -87,6 +90,21 @@ namespace AdminWarnings
         public PlayerWarning GetPlayerData(UnturnedPlayer P)
         {
             return GetAllPlayerWarnings().FirstOrDefault(pWarning => pWarning.CSteamID.ToString() == P.CSteamID.ToString());
+        }
+
+        public void DecreasePlayerWarnings(UnturnedPlayer player, int amount)
+        {
+            PlayerWarning PlayerData = GetPlayerData(player);
+            if (PlayerData.Warnings > 0 )
+            {
+                PlayerData.Warnings -= amount;
+                Save();
+            }
+
+            if (GetPlayerWarnings(player) <= 0)
+            {
+                RemovePlayerData(PlayerData);
+            }
         }
 
         public bool CheckIfHasData(UnturnedPlayer P)
