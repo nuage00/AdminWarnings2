@@ -8,6 +8,7 @@ using Rocket.API;
 using Rocket.Unturned.Chat;
 using SDG.Unturned;
 using Steamworks;
+using System.Threading;
 
 namespace AdminWarnings
 {
@@ -55,7 +56,7 @@ namespace AdminWarnings
             WarningUtilities.Log("AdminWarnings has Loaded!");
             Instance = this;
 
-            util.RemoveExpiredWarnings();
+            util.RemoveExpiredWarnings(1000);
         }
 
         protected override void Unload()
@@ -66,15 +67,19 @@ namespace AdminWarnings
 
     public class WarningUtilities
     {
-        public void RemoveExpiredWarnings()
+        public void RemoveExpiredWarnings(int delay)
         {
-            foreach (var playerWarning in GetAllPlayerWarnings())
+            new Thread(() =>
             {
-                if (GetDaysSinceWarning(playerWarning.DateAdded) >= WarningsPlugin.Instance.Configuration.Instance.DaysWarningsExpire)
+                Thread.Sleep(delay);
+                foreach (var playerWarning in GetAllPlayerWarnings())
                 {
-                    RemovePlayerData(playerWarning);
+                    if (GetDaysSinceWarning(playerWarning.DateAdded) >= WarningsPlugin.Instance.Configuration.Instance.DaysWarningsExpire)
+                    {
+                        RemovePlayerData(playerWarning);
+                    }
                 }
-            }
+            }).Start();
         }
 
         public int GetDaysSinceWarning(DateTime warningDate)
