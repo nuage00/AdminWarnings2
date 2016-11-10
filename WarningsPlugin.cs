@@ -299,7 +299,7 @@ namespace AdminWarnings
 
         public SteamPlayer GetSteamPlayerFromID(string ID)
         {
-            return Provider.Players.FirstOrDefault(steamP => steamP.SteamPlayerID.CSteamID.ToString() == ID);
+            return Provider.clients.FirstOrDefault(steamP => steamP.playerID.steamID.ToString() == ID);
         }
 
         public UnityEngine.Color GetMessageColor()
