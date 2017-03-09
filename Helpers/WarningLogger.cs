@@ -57,7 +57,7 @@ namespace AdminWarnings.Helpers
 
         public void LoadDefaults()
         {
-            entries = new List<WarningLog> { new WarningLog { AdminId = "one", Reason = "default", VictimId = "1" } };
+            entries = new List<WarningLog>();
         }
     }
 
