@@ -6,7 +6,6 @@ namespace AdminWarnings
 {
     public class CommandWarnings : IRocketCommand
     {
-
         public List<string> Aliases
         {
             get { return new List<string> { "warns" }; }

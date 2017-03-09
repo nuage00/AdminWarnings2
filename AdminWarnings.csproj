@@ -62,17 +62,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandRemovewarn.cs" />
-    <Compile Include="CommandWarn.cs" />
-    <Compile Include="CommandWarnings.cs" />
+    <Compile Include="Commands\CommandClearWarningLogs.cs" />
+    <Compile Include="Commands\CommandRemovewarn.cs" />
+    <Compile Include="Commands\CommandWarn.cs" />
+    <Compile Include="Commands\CommandWarnings.cs" />
+    <Compile Include="Helpers\WarningLogger.cs" />
     <Compile Include="WarningsConfig.cs" />
     <Compile Include="WarningsPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\owner\Desktop\Unturned\unturned\Servers\testserver\Rocket\Plugins\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

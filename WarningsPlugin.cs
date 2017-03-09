@@ -9,6 +9,7 @@ using Rocket.Unturned.Chat;
 using SDG.Unturned;
 using Steamworks;
 using System.Threading;
+using AdminWarnings.Helpers;
 
 namespace AdminWarnings
 {
@@ -46,7 +47,8 @@ namespace AdminWarnings
                     {"console_warnings_noparameter", "You must enter a player when calling this command from the console!"},
                     {"public_player_warned_reason", "'{0}' has been giving a warning! Reason: {1}"},
                     {"remove_warn", "Removed {0} warnings from '{1}'!"},
-                    {"no_data", "'{0}' does not have any warnings!"}
+                    {"no_data", "'{0}' does not have any warnings!"},
+                    { "cleared_logs", "Cleared warning logs!" }
                 };
             }
         }
@@ -57,6 +59,7 @@ namespace AdminWarnings
             Instance = this;
 
             util.RemoveExpiredWarnings(1000);
+            WarningLogger.Init();
         }
 
         protected override void Unload()
@@ -100,7 +103,7 @@ namespace AdminWarnings
         public void DecreasePlayerWarnings(UnturnedPlayer player, int amount)
         {
             PlayerWarning PlayerData = GetPlayerData(player);
-            if (PlayerData.Warnings > 0 )
+            if (PlayerData.Warnings > 0)
             {
                 PlayerData.Warnings -= amount;
                 Save();
@@ -145,6 +148,7 @@ namespace AdminWarnings
 
                     if (GetConfigAnnouceMessageServerWide())
                         UnturnedChat.Say(WarningsPlugin.Instance.Translate("public_player_kicked", Player.DisplayName, pData.Warnings), GetMessageColor());
+
                 }
                 else if (point.BanPlayer)
                 {
@@ -165,7 +169,7 @@ namespace AdminWarnings
                 }
             }
 
-            if (!actionTaken) 
+            if (!actionTaken)
             {
                 if (WarningsPlugin.Instance.Configuration.Instance.AnnouceWarningsServerWide)
                 {
@@ -180,11 +184,17 @@ namespace AdminWarnings
             }
 
             var allWarningPoints = GetAllWarningPoints();
-            if (pData.Warnings >= allWarningPoints[allWarningPoints.Count - 1].WarningsToTrigger) 
+            if (pData.Warnings >= allWarningPoints[allWarningPoints.Count - 1].WarningsToTrigger)
             {
                 RemovePlayerData(pData);
                 Save();
             }
+
+            if (caller is ConsolePlayer)
+                WarningLogger.LogWarning(0.ToString(), "*Console*", Player, reason);
+            else
+                WarningLogger.LogWarning((UnturnedPlayer)caller, Player, reason);
+
         }
 
         public void PublicWarnPlayer(UnturnedPlayer Player, PlayerWarning pData, string reason, bool reasonIncluded)
@@ -239,10 +249,12 @@ namespace AdminWarnings
 
         public void AddPlayerData(UnturnedPlayer player)
         {
-            WarningsPlugin.Instance.Configuration.Instance.PlayerWarnings.Add(new PlayerWarning { 
+            WarningsPlugin.Instance.Configuration.Instance.PlayerWarnings.Add(new PlayerWarning
+            {
                 Warnings = 0,
                 CSteamID = player.CSteamID.ToString(),
-                DateAdded = DateTime.Now });
+                DateAdded = DateTime.Now
+            });
             Save();
         }
 
@@ -284,7 +296,7 @@ namespace AdminWarnings
         {
             P2PSessionState_t p2PSessionStateT;
             uint ip;
-            
+
             if (!SteamGameServerNetworking.GetP2PSessionState(ID, out p2PSessionStateT))
             {
                 ip = 0;
