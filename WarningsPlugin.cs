@@ -11,6 +11,8 @@ using Steamworks;
 using System.Threading;
 using AdminWarnings.Helpers;
 
+using logger = Rocket.Core.Logging.Logger;
+
 namespace AdminWarnings
 {
     public class WarningsPlugin : RocketPlugin<WarningsConfig>
@@ -48,7 +50,8 @@ namespace AdminWarnings
                     {"public_player_warned_reason", "'{0}' has been giving a warning! Reason: {1}"},
                     {"remove_warn", "Removed {0} warnings from '{1}'!"},
                     {"no_data", "'{0}' does not have any warnings!"},
-                    { "cleared_logs", "Cleared warning logs!" }
+                    { "cleared_logs", "Cleared warning logs!" },
+                    {"console_command", "Ran command '{0}' because player:{1} hit {2} warnings"}
                 };
             }
         }
@@ -132,7 +135,14 @@ namespace AdminWarnings
             if (MatchesWarningPoint(pData.Warnings))
             {
                 WarningPoint point = GetWarningPoint(pData.Warnings);
-                if (point.KickPlayer)
+
+                if (!string.IsNullOrEmpty(point.ConsoleCommand))
+                {
+                    string cmd = ConsoleCommandHelper.FormatConsoleCommandString(point.ConsoleCommand.ToLower(), Player);
+                    CommandWindow.input.onInputText(cmd);
+                    logger.Log(WarningsPlugin.Instance.Translate("console_command", cmd, Player.DisplayName, point.WarningsToTrigger));
+                }
+                else if (point.KickPlayer)
                 {
                     if (reasonIncluded)
                     {

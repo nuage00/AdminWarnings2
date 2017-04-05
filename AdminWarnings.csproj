@@ -66,6 +66,7 @@
     <Compile Include="Commands\CommandRemovewarn.cs" />
     <Compile Include="Commands\CommandWarn.cs" />
     <Compile Include="Commands\CommandWarnings.cs" />
+    <Compile Include="Helpers\ConsoleCommandHelper.cs" />
     <Compile Include="Helpers\WarningLogger.cs" />
     <Compile Include="WarningsConfig.cs" />
     <Compile Include="WarningsPlugin.cs" />

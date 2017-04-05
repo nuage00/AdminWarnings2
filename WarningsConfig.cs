@@ -27,11 +27,11 @@ namespace AdminWarnings
             AnnouceWarningKicksAndBansServerWide = true;
             AnnouceWarningsServerWide = false;
             WarningPoints = new List<WarningPoint> {
-                new WarningPoint{ WarningsToTrigger = 3, KickPlayer = true, BanPlayer = false, BanLengthSeconds = 0 },
-                new WarningPoint{ WarningsToTrigger = 4, KickPlayer = false, BanPlayer = true, BanLengthSeconds = 600 },
-                new WarningPoint{ WarningsToTrigger = 5, KickPlayer = false, BanPlayer = true, BanLengthSeconds = 1800 },
-                new WarningPoint{ WarningsToTrigger = 6, KickPlayer = false, BanPlayer = true, BanLengthSeconds = 86400 },
-                new WarningPoint{ WarningsToTrigger = 7, KickPlayer = false, BanPlayer = true, BanLengthSeconds = 432000 }
+                new WarningPoint{ WarningsToTrigger = 3, KickPlayer = true, BanPlayer = false, BanLengthSeconds = 0, ConsoleCommand = "" },
+                new WarningPoint{ WarningsToTrigger = 4, KickPlayer = false, BanPlayer = true, BanLengthSeconds = 600, ConsoleCommand = "" },
+                new WarningPoint{ WarningsToTrigger = 5, KickPlayer = false, BanPlayer = true, BanLengthSeconds = 1800, ConsoleCommand = "" },
+                new WarningPoint{ WarningsToTrigger = 6, KickPlayer = false, BanPlayer = true, BanLengthSeconds = 86400, ConsoleCommand = "" },
+                new WarningPoint{ WarningsToTrigger = 7, KickPlayer = false, BanPlayer = true, BanLengthSeconds = 432000, ConsoleCommand = "" }
             };
             PlayerWarnings = new List<PlayerWarning>();
         }
@@ -43,6 +43,7 @@ namespace AdminWarnings
         public bool KickPlayer;
         public bool BanPlayer;
         public uint BanLengthSeconds;
+        public string ConsoleCommand;
     }
 
     public class PlayerWarning
